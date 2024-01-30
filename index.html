@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>MDIA 2294</title>
+	
+	<style>
+	    thead{
+	        font-weight:bold;
+	    }
+	    
+	    td{
+	        padding-left:5px;
+	        padding-right:5px;	        
+	    }
+	    
+	    td.sub-total{
+	        text-align:right;	        
+	    }
+	</style>
+</head>
+<body>
+	<h1>MDIA 2294: ACME Corp Invoice</h1>
+	
+	<table>
+	    <thead>
+	        <tr>
+	            <td>ITEM</td>
+	            <td>DESCRIPTION</td>
+	            <td>QTY</td>
+	            <td>PRICE</td>
+	            <td>LINE TOTAL</td>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr>
+	            <td>1</td>
+	            <td><input id="line-1-description" type="text" size="40" value="Anvil" /></td>
+	            <td><input id="line-1-quantity" type="text" size="3" value="5" /></td>
+	            <td><input id="line-1-price" type="text" size="6" value="35.00" /></td>
+	            <td class="sub-total"><span id="line-1"></span></td>
+	        </tr>
+	        <tr>
+	            <td>2</td>
+	            <td><input id="line-2-description" type="text" size="40" value="Rocket Skates (each)" /></td>
+	            <td><input id="line-2-quantity" type="text" size="3" value="2" /></td>
+	            <td><input id="line-2-price" type="text" size="6" value="24.99" /></td>
+	            <td class="sub-total"><span id="line-2"></span></td>
+	        </tr>
+	        <tr>
+	            <td>3</td>
+	            <td><input id="line-3-description" type="text" size="40" value="Giant Magnet" /></td>
+	            <td><input id="line-3-quantity" type="text" size="3" value="1" /></td>
+	            <td><input id="line-3-price" type="text" size="6" value="125.50" /></td>
+	            <td class="sub-total"><span id="line-3"></span></td>
+	        </tr>
+	        <tr>
+	            <td>4</td>
+	            <td><input id="line-4-description" type="text" size="40" value="Ball bearings" /></td>
+	            <td><input id="line-4-quantity" type="text" size="3" value="1000" /></td>
+	            <td><input id="line-4-price" type="text" size="6" value="0.25" /></td>
+	            <td class="sub-total"><span id="line-4"></span></td>
+	        </tr>
+	        <tr>
+	            <td>5</td>
+	            <td><input id="line-5-description" type="text" size="40" value="Portable holes" /></td>
+	            <td><input id="line-5-quantity" type="text" size="3" value="12" /></td>
+	            <td><input id="line-5-price" type="text" size="6" value="15.25" /></td>
+	            <td class="sub-total"><span id="line-5"></span></td>
+	        </tr>
+	    </tbody>
+	    <tfoot>
+	        <tr>
+	            <td colspan="4" style="text-align:right;">SUB TOTAL</td>  
+	            <td class="sub-total"><span id="sub-total"></span></td>	        
+	        </tr>
+	        <tr>
+	            <td colspan="4" style="text-align:right;">DISCOUNT</td>  
+	            <td class="sub-total"><span id="discount"></span></td>	        
+	        </tr>
+	        <tr>
+	            <td colspan="4" style="text-align:right;">TAX</td>  
+	            <td class="sub-total"><span id="tax"></span></td>	        
+	        </tr>
+	        <tr>
+	            <td colspan="4" style="text-align:right;">TOTAL</td>  
+	            <td class="sub-total" style="border-top:solid black 1px"><span id="Total"></span></td>	        
+	        </tr>
+	    </tfoot>	    
+	</table>
+
+
+	
+	<div><button id="calculate">Calculate</button></div>
+	<div>NOTE: discounts of 10% are given to orders over $250</div>
+
+	<script>
+		// Thomas Luong A01189144 Assignment 1
+
+		// Here we are getting a global variable for the sub-total using document.getElementById("sub-total")
+		const sub_total = document.getElementById("sub-total");
+		
+		// Here we are getting a global variable for the discount using document.getElementById("discount")
+		const discount_total = document.getElementById("discount");
+
+		// Here we are getting a global variable for the tax using document.getElementById("tax")
+		const tax_display = document.getElementById("tax");
+
+		// Here we are getting a global variable for the Total using document.getElementById("Total")
+		const total_display = document.getElementById("Total");
+
+		// const global variables that cannot change 
+		const discount = 0.10;
+		const tax = 0.12;
+
+	    function calculate() {
+
+			// here we are collecting the qty and price of each item in each table row also giving them variable name
+			let line_1_quantity = document.querySelector("#line-1-quantity").value;
+			let line_1_price = document.querySelector("#line-1-price").value;
+			let line_2_quantity = document.querySelector("#line-2-quantity").value;
+			let line_2_price = document.querySelector("#line-2-price").value;
+			let line_3_quantity = document.querySelector("#line-3-quantity").value;
+			let line_3_price = document.querySelector("#line-3-price").value;
+			let line_4_quantity = document.querySelector("#line-4-quantity").value;
+			let line_4_price = document.querySelector("#line-4-price").value;
+			let line_5_quantity = document.querySelector("#line-5-quantity").value;
+			let line_5_price = document.querySelector("#line-5-price").value;
+
+			// Here we car calculating the values with the variable data and then putting those finished calculations into a new variable
+			let total_1 = line_1_price * line_1_quantity;
+			let total_2 = line_2_price * line_2_quantity;
+			let total_3 = line_3_price * line_3_quantity;
+			let total_4 = line_4_price * line_4_quantity;
+			let total_5 = line_5_price * line_5_quantity;
+
+			// we are calling the dom to add the total_(1-5) variables and concatenating the $ and using toFixed to show the 2 decimal points
+			document.querySelector("#line-1").innerText = "$ " + total_1.toFixed(2);
+			document.querySelector("#line-2").innerText = "$ " + total_2.toFixed(2);
+			document.querySelector("#line-3").innerText = "$ " + total_3.toFixed(2);
+			document.querySelector("#line-4").innerText = "$ " + total_4.toFixed(2);
+			document.querySelector("#line-5").innerText = "$ " + total_5.toFixed(2);
+
+			// here we added another variable and adding all the item values and putting them into the variable name sub_total_val
+			let sub_total_val = total_1 + total_2 + total_3 + total_4 + total_5;
+
+			// Here are then add he sub_total_val value into the Html from the global variable sub_total
+			sub_total.innerHTML = "$ " + sub_total_val;
+
+			// Here we need to do a ternary operation because if statements will not let us use the local variable inside the if statement but in this ternary statement we are saying that if the order is more than 250 then let discount_value equal to the calculation if not then equal to the string "$ 0.00"
+			let discount_value = (sub_total_val >= 250) ?  parseFloat(sub_total_val * discount).toFixed(2) :  0.00;
+
+			// adding the discount_val to the span
+			discount_total.innerHTML = "$ " + discount_value;
+
+			// tax will calculate the tax
+			let tax_total  = sub_total_val * tax
+			tax_display.innerText = "$ " + tax_total.toFixed(2);
+
+			// This is the calculated total with tax subtotal and the discount
+			let final_total = (sub_total_val - discount_value) + tax_total;
+
+			// We are using the  global variable total_display to display the final total
+			total_display.innerHTML = "$ " + final_total.toFixed(2);
+	    }
+
+		document.getElementById("calculate").addEventListener("click", calculate);
+	
+	
+    </script>
+</body>
+</html>
